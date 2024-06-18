@@ -1,0 +1,39 @@
+$author-title-color: #1d282c;
+$click-me-color: #0d48a2;
+
+.authors {
+  h2 {
+    font-size: 2.7em;
+    color: $author-title-color;
+    border-bottom: 2px solid $author-title-color;
+  }
+
+  .empty-label {
+    font-size: 1.5em;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .add-author {
+    cursor: pointer;
+
+    i {
+      font-size: 2.3em;
+      color: $click-me-color;
+    }
+
+    label {
+      cursor: pointer;
+      font-size: 1.4em;
+      font-weight: 500;
+    }
+  }
+
+  .authors-list {
+    ul {
+      list-style-type: none;
+      margin-bottom: 0;
+      padding-left: 0;
+    }
+  }
+}
