@@ -1,27 +1,27 @@
-import React, {FC} from 'react';
+import React, {FC, PropsWithChildren} from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {IAuthor} from "../../types/type";
 import Author from "./Author";
 
-const authorsList: IAuthor[] = [
-  {name: "Author 1 name"},
-  {name: "Author 2 name"},
-  {name: "Author 3 name"},
-  {name: "Author 4 name"},
-];
+type AuthorListProps = {
+  authors: IAuthor[]
+  onDeleteClick: (index: number) => void
+}
 
-const AuthorsList: FC = () => {
+const AuthorsList: FC<AuthorListProps> = (props: PropsWithChildren<AuthorListProps>) => {
+
+  const {authors, onDeleteClick} = props;
 
   const renderAuthors = () => {
     return (
       <ul>
         {
-          authorsList.map((author: IAuthor, index: number) => {
+          authors.map((author: IAuthor, index: number) => {
             return (
               <li className="author"
                   key={index}>
-                <Author num={index + 1} name={author.name}/>
+                <Author num={index + 1} name={author.name} onDeleteClick={onDeleteClick}/>
               </li>
             );
           })
