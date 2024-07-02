@@ -1,4 +1,4 @@
-import React, {FC, FormEvent, PropsWithChildren, useState} from 'react';
+import React, {FC, FormEvent, PropsWithChildren, useEffect, useState} from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -6,15 +6,26 @@ import Button from "react-bootstrap/Button";
 import {IAuthor} from "../../types/type";
 
 type AuthorFormProps = {
+  authorToUpdate: IAuthor | null
   onCloseClick: () => void
   onAuthorCreated: (newAuthor: IAuthor) => void
+  onAuthorUpdated: (updatedAuthor: IAuthor) => void
 }
 
 const AuthorForm: FC<AuthorFormProps> = (props: PropsWithChildren<AuthorFormProps>) => {
 
-  const {onCloseClick, onAuthorCreated} = props;
+  const {authorToUpdate, onCloseClick, onAuthorCreated, onAuthorUpdated} = props;
 
   const [authorName, setAuthorName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!authorToUpdate) {
+      setAuthorName(null);
+      return;
+    }
+
+    setAuthorName(authorToUpdate.name);
+  }, [authorToUpdate]);
 
   const handleOnNameChange = (value: string) => {
     setAuthorName(value);
@@ -24,7 +35,13 @@ const AuthorForm: FC<AuthorFormProps> = (props: PropsWithChildren<AuthorFormProp
     event.preventDefault();
 
     if (!authorName) {
-      alert("Author name cannot be null");
+      alert("Author name cannot be empty");
+      return;
+    }
+
+    if (authorToUpdate) {
+      const updatedAuthor: IAuthor = {...authorToUpdate, name: authorName};
+      onAuthorUpdated(updatedAuthor);
       return;
     }
 
@@ -37,7 +54,7 @@ const AuthorForm: FC<AuthorFormProps> = (props: PropsWithChildren<AuthorFormProp
       <Col xs={8}>
         <Row>
           <Col xs={12} className="d-flex align-items-center justify-content-between">
-            <h3>Create Author</h3>
+            <h3>{authorToUpdate ? "Update" : "Create"} Author</h3>
             <i className="feather-x-circle" onClick={onCloseClick}/>
           </Col>
 
@@ -53,7 +70,7 @@ const AuthorForm: FC<AuthorFormProps> = (props: PropsWithChildren<AuthorFormProp
 
               <div className="text-end">
                 <Button variant="primary" type="submit" className="mt-2">
-                  Create
+                  {authorToUpdate ? "Update" : "Create"}
                 </Button>
               </div>
 
