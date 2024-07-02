@@ -7,11 +7,12 @@ import Author from "./Author";
 type AuthorListProps = {
   authors: IAuthor[]
   onDeleteClick: (index: number) => void
+  onUpdateClick: (index: number) => void
 }
 
 const AuthorsList: FC<AuthorListProps> = (props: PropsWithChildren<AuthorListProps>) => {
 
-  const {authors, onDeleteClick} = props;
+  const {authors, onDeleteClick, onUpdateClick} = props;
 
   const renderAuthors = () => {
     return (
@@ -21,7 +22,8 @@ const AuthorsList: FC<AuthorListProps> = (props: PropsWithChildren<AuthorListPro
             return (
               <li className="author"
                   key={index}>
-                <Author num={index + 1} name={author.name} onDeleteClick={onDeleteClick}/>
+                <Author num={index + 1} name={author.name} onDeleteClick={onDeleteClick}
+                        onUpdateClick={onUpdateClick}/>
               </li>
             );
           })
